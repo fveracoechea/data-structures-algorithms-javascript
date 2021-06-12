@@ -1,1 +1,4 @@
-console.log('testing')
+import bigOArrays from './BigO/arrays';
+
+
+bigOArrays();
