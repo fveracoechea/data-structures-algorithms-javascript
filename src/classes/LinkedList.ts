@@ -1,6 +1,6 @@
-class Node<A> {
+export class SingleNode<A> {
   public value: A;
-  public next: Node<A> | null;
+  public next: SingleNode<A> | null;
 
   constructor(value: A) {
     this.value = value;
@@ -11,19 +11,19 @@ class Node<A> {
 // * LinkedList are useful when we need to add or remove items from the begening of the list.
 export default class LinkedList<A> {
 
-  public head: Node<A> | null;
-  public tail: Node<A> | null;
+  public head: SingleNode<A> | null;
+  public tail: SingleNode<A> | null;
   public length: number;
 
   constructor(value: A) {
-    const newNode = new Node(value);
+    const newNode = new SingleNode(value);
     this.head = newNode;
     this.tail = newNode;
     this.length = 1;
   }
-  /** Creates a new node which is added to the end */
+  /** Creates a new SingleNode which is added to the end */
   push(value: A) {
-    const newNode = new Node(value);
+    const newNode = new SingleNode(value);
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -52,9 +52,9 @@ export default class LinkedList<A> {
     }
     return temp;
   }
-  /** Creates a new node which is added to the beginning */
+  /** Creates a new SingleNode which is added to the beginning */
   unshift(value: A) {
-    const newNode = new Node(value);
+    const newNode = new SingleNode(value);
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -79,9 +79,7 @@ export default class LinkedList<A> {
   }
   /** Gets the node that is at a particular index */
   get(index: number) {
-    if (index < 0 || index >= this.length) {
-      return null;
-    }
+    if (index < 0 || index >= this.length) return null;
     let temp = this.head;
     for (let i = 0; i < index; i++) {
       temp = temp!.next;
@@ -97,15 +95,17 @@ export default class LinkedList<A> {
     }
     return false;
   }
-  /** Creates a new node which is inserted in a specific index */
+  /** Creates a new SingleNode which is inserted in a specific index */
   insert(index: number, value: A) {
     if (index < 0 || index > this.length) return null;
     if (index === 0) return this.unshift(value);
     if (index === this.length) return this.push(value);
-    const newNode = new Node(value);
-    const temp = this.get(index - 1);
-    newNode.next = temp!.next;
-    temp!.next = newNode;
+    const newNode = new SingleNode(value);
+    const before = this.get(index - 1);
+    const after = before!.next;
+    before!.next = newNode;
+    newNode.next = after;
+    this.length++;
     return this;
   }
   /** Deletes the node which is at a particular index and returns it */
