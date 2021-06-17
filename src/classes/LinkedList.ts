@@ -1,12 +1,4 @@
-export class SingleNode<A> {
-  public value: A;
-  public next: SingleNode<A> | null;
-
-  constructor(value: A) {
-    this.value = value;
-    this.next = null;
-  }
-}
+import SingleNode from "./SingleNode";
 
 // * LinkedList are useful when we need to add or remove items from the begening of the list.
 export default class LinkedList<A> {
